@@ -32,40 +32,30 @@ def siftDown(data, i,swaps):
 
 def main():
     
-     try:
-        text = input("Enter I or F: ")
-        if text not in ["I", "F"]:
-            raise ValueError("Invalid input, expected 'I' or 'F'")
-        if text == "I":
-            n = int(input())
-            data = list(map(int, input().split()))
-            if len(data) != n:
-                raise ValueError(f"Invalid input, expected {n} elements")
-            swaps = build_heap(data)
-            print(len(swaps))
-            for i, j in swaps:
-                print(i, j)
-        elif text == "F":
-            filename = input()
-            file_path = f"./text/{filename}"
-            if "a" not in filename:
-                try:
-                    with open(file_path) as f:
-                        n = int(f.readline())
-                        data = list(map(int, f.readline().split()))
-                        if len(data) != n:
-                            raise ValueError(f"Invalid input, expected {n} elements")
-                        swaps = build_heap(data)
-                        print(data)
-                        print(len(swaps))
-                        for i, j in swaps:
-                            print(i, j)
-                except FileNotFoundError:
-                    print(f"Error: File {filename} not found")
-                except:
-                    print("Error: Invalid input in file")
-     except ValueError as e:
-        print(f"Error: {str(e)}")
+    choice = input()
+    
+
+    if "F" in choice:
+        
+        fPath = input("Input f path: ")
+
+        with open(f"tests/{fPath}", "r") as f:
+            n = int(f.readline())
+            data = list(map(int, f.readline().split()))
+        
+    elif "I" in choice:
+        n = int(input())
+        data = list(map(int, input().split()))
+        
+    else:
+        exit()
+    assert len(data) == n
+
+    swaps = build_heap(data)
+
+    print(len(swaps))
+    for i, j in swaps:
+        print(i, j)
 
 
 if __name__ == "__main__":
