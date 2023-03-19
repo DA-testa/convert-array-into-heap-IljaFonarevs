@@ -1,38 +1,58 @@
-# python3
-
+import math
 
 def build_heap(data):
     swaps = []
-    # TODO: Creat heap and heap sort
-    # try to achieve  O(n) and not O(n2)
-
-
+    for j in range (math.floor(len(data)/2), -1, -1):
+        siftDown(data, j,swaps)
+    for end in range(len(data), 0, -1):
+        # swap(data, 0, end, swaps)
+        siftDown(data, end, swaps) 
     return swaps
+
+def swap(data, i, j, swaps):
+    data[i], data[j] = data[j], data[i]
+    swaps.append([j, i])
+    return swaps
+def siftDown(data, i,swaps):
+    l, r = i*2+1, i*2+2
+    smallest_num = i
+    if(l < len(data) and data[l] < data[smallest_num]):
+        smallest_num = l
+    if(r < len(data) and data[r] < data[smallest_num]):
+        smallest_num = r
+    if(smallest_num != i):
+        swap(data, smallest_num, i, swaps)
+        siftDown(data, smallest_num, swaps)
+    return swaps
+
+
+
+    
 
 
 def main():
     
-    # TODO : add input and corresponding checks
-    # add another input for I or F 
-    # first two tests are from keyboard, third test is from a file
+    choice = input()
+    
 
+    if "F" in choice:
+        
+        fPath = input("Input f path: ")
 
-    # input from keyboard
-    n = int(input())
-    data = list(map(int, input().split()))
-
-    # checks if lenght of data is the same as the said lenght
+        with open(f"tests/{fPath}", "r") as f:
+            n = int(f.readline())
+            data = list(map(int, f.readline().split()))
+        
+    elif "I" in choice:
+        n = int(input())
+        data = list(map(int, input().split()))
+        
+    else:
+        exit()
     assert len(data) == n
 
-    # calls function to assess the data 
-    # and give back all swaps
     swaps = build_heap(data)
 
-    # TODO: output how many swaps were made, 
-    # this number should be less than 4n (less than 4*len(data))
-
-
-    # output all swaps
     print(len(swaps))
     for i, j in swaps:
         print(i, j)
